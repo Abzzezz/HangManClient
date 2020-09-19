@@ -38,7 +38,7 @@ public class RoomScreen extends Screen {
     public void buttonPressed(float buttonID) {
         if (buttonID == 0) {
             if (!letter.toString().isEmpty()) {
-                Main.MAIN_CLIENT.getPacketManager().sendPacket(new GuessPacket(letter.toString().charAt(0)), Main.MAIN_CLIENT.getWriter());
+                Main.MAIN_CLIENT.getPacketManager().sendPacket(new GuessPacket(letter.toString().charAt(0)));
                 letter.deleteAllText();
             }
         }

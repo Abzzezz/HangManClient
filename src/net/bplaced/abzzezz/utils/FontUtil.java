@@ -11,24 +11,21 @@
 package net.bplaced.abzzezz.utils;
 
 
-import net.bplaced.abzzezz.EngineCore;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 
 import java.awt.*;
 import java.io.InputStream;
-import java.net.URL;
-import java.net.URLClassLoader;
 
 public class FontUtil {
     private UnicodeFont unicodeFont;
 
     public FontUtil(String fontName, int size) {
         try {
-            String fontDir = EngineCore.getInstance().getFontDir() + fontName + ".ttf";
-            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(fontDir);
-            Font awtFont = Font.createFont(Font.PLAIN, inputStream);
+            final InputStream inputStream = Class.class.getResourceAsStream("/fonts/" + fontName + ".ttf");
+
+            final Font awtFont = Font.createFont(Font.PLAIN, inputStream);
             this.unicodeFont = new UnicodeFont(awtFont, size, false, false);
             unicodeFont.addAsciiGlyphs();
             unicodeFont.getEffects().add(new ColorEffect(Color.WHITE));

@@ -1,71 +1,27 @@
 package ga.abzzezz.hangman;
 
 import ga.abzzezz.hangman.packet.PacketManager;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import io.netty.bootstrap.Bootstrap;
+import io.netty.channel.EventLoopGroup;
+import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.nio.NioSocketChannel;
 
 public class Client extends Thread {
 
-
-    private final PacketManager packetManager = new PacketManager();
-    private Socket socket;
-    private PrintWriter writer;
-    private BufferedReader reader;
-
-    /**
-     * Connect to server on default port: 1010
-     */
-    public Client() {
-        try {
-            this.socket = new Socket("2A02:908:1080:6D20:F001:81C2:BE78:BFE6", 1010);
-            this.writer = new PrintWriter(socket.getOutputStream());
-            this.reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    public static final int PORT = 1010;
+    private PacketManager packetManager;
 
     @Override
     public void run() {
+        final EventLoopGroup group = new NioEventLoopGroup();
         try {
-            connect();
-        } catch (Exception e) {
+            final Bootstrap bootstrap = new Bootstrap()
+                    .group(group)
+                    .channel(NioSocketChannel.class).handler(new ClientInitializer());
+            packetManager = new PacketManager(bootstrap.connect("localhost", PORT).sync().channel());
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        super.run();
-    }
-
-
-    public void connect() throws Exception {
-        Logger.getAnonymousLogger().log(Level.INFO, "Connecting to sever");
-        while (true) {
-
-            while (reader.ready()) {
-                packetManager.handlePacket(reader.readLine(), writer);
-            }
-        }
-    }
-
-    public Socket getSocket() {
-        return socket;
-    }
-
-    public void setSocket(Socket socket) {
-        this.socket = socket;
-    }
-
-    public PrintWriter getWriter() {
-        return writer;
-    }
-
-    public BufferedReader getReader() {
-        return reader;
     }
 
     public PacketManager getPacketManager() {

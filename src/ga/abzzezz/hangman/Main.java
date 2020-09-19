@@ -6,33 +6,30 @@ import ga.abzzezz.hangman.screens.RoomScreen;
 import ga.abzzezz.hangman.util.Holder;
 import net.bplaced.abzzezz.EngineCore;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import javax.swing.*;
 
 public class Main {
 
     public static final Client MAIN_CLIENT = new Client();
 
-    public static void main(final String[] args) throws IOException {
+    public static void main(final String[] args) throws Exception {
         Main.MAIN_CLIENT.start();
 
-        System.out.println("Please enter room-id. Write your player name behind the id separated by a colon.");
+        boolean x = true;
 
-        String line;
-        final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        while ((line = bufferedReader.readLine()) != null) {
-            if (line.equals("cr")) {
-                Main.MAIN_CLIENT.getPacketManager().sendPacket(new CreateRoomPacket(), Main.MAIN_CLIENT.getWriter());
+        while (x) {
+            final String s = JOptionPane.showInputDialog("Please enter room-id. Write your player name behind the id separated by a colon.");
+            if (s.equals("cr")) {
+                Main.MAIN_CLIENT.getPacketManager().sendPacket(new CreateRoomPacket());
             } else {
-                final String[] colonSplit = line.split(":");
+                final String[] colonSplit = s.split(":");
                 Holder.roomId = colonSplit[0];
-                Main.MAIN_CLIENT.getPacketManager().sendPacket(new JoinRoomPacket(colonSplit[1]), Main.MAIN_CLIENT.getWriter());
+                Main.MAIN_CLIENT.getPacketManager().sendPacket(new JoinRoomPacket(colonSplit[1]));
                 final EngineCore engineCore = new EngineCore(600, 600, new RoomScreen());
                 engineCore.start();
+                x = false;
             }
         }
-        bufferedReader.close();
     }
 
 }

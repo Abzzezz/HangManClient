@@ -22,6 +22,7 @@ public class GuessPacket extends Packet {
     @Override
     public Optional<String> send() {
         getMoreData().put("letter", aChar);
+        getMoreData().put("player_identification", Holder.thisPlayer);
         return Optional.of(Holder.roomId);
     }
 

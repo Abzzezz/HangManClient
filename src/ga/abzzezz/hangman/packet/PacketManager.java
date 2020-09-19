@@ -1,9 +1,9 @@
 package ga.abzzezz.hangman.packet;
 
 import ga.abzzezz.hangman.packet.packets.*;
+import io.netty.channel.Channel;
 import org.json.JSONObject;
 
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -13,8 +13,10 @@ import java.util.logging.Logger;
 public class PacketManager {
 
     private final List<Packet> packets = new ArrayList<>();
+    private final Channel channel;
 
-    public PacketManager() {
+    public PacketManager(final Channel channel) {
+        this.channel = channel;
         packets.add(new CreateRoomPacket());
         packets.add(new JoinRoomPacket());
         packets.add(new PlayerJoinPacket());
@@ -26,10 +28,9 @@ public class PacketManager {
     /**
      * Handle Packet based on input string and if needed: respond
      *
-     * @param readLine    read line
-     * @param printWriter print stream to print response to
+     * @param readLine read line
      */
-    public void handlePacket(final String readLine, final PrintWriter printWriter) {
+    public void handlePacket(final String readLine) {
         final JSONObject receivedPacketJson = new JSONObject(readLine);
         this.getPacket(receivedPacketJson.getString(PacketFormatter.PACKET_KEY)).ifPresent(foundPacket -> {
             final String message = receivedPacketJson.getString(PacketFormatter.MESSAGE_KEY);
@@ -40,24 +41,19 @@ public class PacketManager {
 
             foundPacket.receive(message);
 
-            foundPacket.respond(message).ifPresent(responseString -> {
-                printWriter.println(PacketFormatter.formatPacket(foundPacket, responseString));
-                printWriter.flush();
-            });
+            foundPacket.respond(message).ifPresent(responseString -> channel.writeAndFlush(PacketFormatter.formatPacket(foundPacket, responseString)));
         });
     }
 
     /**
      * Send specific packet through print-stream
      *
-     * @param packet      Packet to send
-     * @param printWriter print stream to write to
+     * @param packet Packet to send
      */
-    public void sendPacket(final Packet packet, final PrintWriter printWriter) {
+    public void sendPacket(final Packet packet) {
         packet.send().ifPresent(sendString -> {
             Logger.getAnonymousLogger().log(Level.INFO, "Sending packet: " + packet.getClass());
-            printWriter.println(PacketFormatter.formatPacket(packet, sendString));
-            printWriter.flush();
+            channel.writeAndFlush(PacketFormatter.formatPacket(packet, sendString));
         });
     }
 

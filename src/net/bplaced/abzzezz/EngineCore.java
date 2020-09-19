@@ -14,7 +14,6 @@ import ga.abzzezz.util.logging.Logger;
 import net.bplaced.abzzezz.file.CustomFile;
 import net.bplaced.abzzezz.file.FileManager;
 import net.bplaced.abzzezz.ui.Screen;
-import net.bplaced.abzzezz.utils.FontUtil;
 import net.bplaced.abzzezz.utils.Util;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
@@ -77,7 +76,7 @@ public class EngineCore {
     public EngineCore(int width, int height, Screen startScreen) {
         this.gameName = "Test Game";
         this.gameVersion = 1.0F;
-        this.fontDir = "./font/";
+        this.fontDir = "fonts/";
         this.screen = startScreen;
         this.fpsSync = 60;
         this.mainDir = new File(System.getProperty("user.home"), gameName);

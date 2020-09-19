@@ -1,11 +1,10 @@
 package ga.abzzezz.hangman.packet.packets;
 
 import ga.abzzezz.hangman.packet.Packet;
-import ga.abzzezz.hangman.screens.RoomScreen;
 import ga.abzzezz.hangman.util.Holder;
-import net.bplaced.abzzezz.EngineCore;
 
 import java.util.Optional;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,7 +31,9 @@ public class JoinRoomPacket extends Packet {
 
     @Override
     public Optional<String> send() {
-        getMoreData().put("player_name", playerName);
+        Holder.thisPlayer = UUID.randomUUID().toString();
+
+        getMoreData().put("player_name", playerName).put("player_identification", Holder.thisPlayer);
         return Optional.of(Holder.roomId);
     }
 

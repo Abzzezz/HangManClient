@@ -10,5 +10,6 @@ public class Holder {
     public static String roomId = "";
     public static String word = "";
     public static int tries = 11;
+    public static String thisPlayer = "";
 
 }
