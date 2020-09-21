@@ -3,12 +3,13 @@
     <output-path>$PROJECT_DIR$/out/artifacts/HangManClient_jar</output-path>
     <root id="archive" name="HangManClient.jar">
       <element id="module-output" name="HangManClient" />
-      <element id="library" level="project" name="windows" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../Libraries/netty-all-4.1.52.Final.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/../Libraries/lwjgl.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/../Libraries/lwjgl_util.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/../Libraries/slick.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/../Projects/Out/AbzzezzUtil.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/../Libraries/json-20200518.jar" path-in-jar="/" />
+      <element id="library" level="project" name="windows" />
     </root>
   </artifact>
 </component>

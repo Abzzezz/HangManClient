@@ -11,13 +11,15 @@
 package ga.abzzezz.hangman.screens;
 
 import ga.abzzezz.hangman.Main;
-import ga.abzzezz.hangman.packet.packets.GuessPacket;
+import ga.abzzezz.hangman.client.packet.packets.GuessPacket;
 import ga.abzzezz.hangman.util.Holder;
 import ga.abzzezz.hangman.util.Player;
+import net.bplaced.abzzezz.EngineCore;
 import net.bplaced.abzzezz.ui.Screen;
 import net.bplaced.abzzezz.ui.uicomponents.Button;
 import net.bplaced.abzzezz.ui.uicomponents.TextField;
 import net.bplaced.abzzezz.utils.FontUtil;
+import org.lwjgl.input.Keyboard;
 
 import java.awt.*;
 
@@ -29,8 +31,8 @@ public class RoomScreen extends Screen {
     @Override
     public void init() {
         fontUtil = new FontUtil("Roboto-Light", 15);
-        getUiComponents().add(new Button(0, "Submit", getWidth() / 2, getHeight() / 2, 100, 20));
-        getUiComponents().add(letter = new TextField(getWidth() / 2 - 200, getHeight() / 2, 100, 20, "Letter"));
+        getUiComponents().add(new Button(0, "Submit", getWidth() - 105, getHeight() - 25, 100, 20));
+        getUiComponents().add(letter = new TextField(5, getHeight() - 25, 100, 20, "Letter"));
         super.init();
     }
 
@@ -47,13 +49,17 @@ public class RoomScreen extends Screen {
 
     @Override
     public void keyTyped(int keyCode, char keyTyped) {
+        if (keyCode == Keyboard.KEY_F5) {
+            System.out.println("Reloaded");
+            EngineCore.getInstance().setScreen(this);
+        }
         super.keyTyped(keyCode, keyTyped);
     }
 
     @Override
     public void drawScreen() {
         fontUtil.drawString("Room id: " + Holder.roomId, 0, 0, Color.BLACK);
-        fontUtil.drawString("Word: " + Holder.word, getWidth() / 2 - fontUtil.getStringWidth("Word: " + Holder.word) / 2, getHeight() / 4, Color.BLACK);
+        fontUtil.drawString("Word: " + Holder.word, getWidth() / 2 - fontUtil.getStringWidth("Word: " + Holder.word), getHeight() / 4, Color.BLACK);
         fontUtil.drawString("Players:", 0, 25, Color.BLACK);
 
         final String triesString = "Tries Left: " + Holder.tries;

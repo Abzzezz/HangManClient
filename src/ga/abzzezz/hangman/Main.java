@@ -1,7 +1,8 @@
 package ga.abzzezz.hangman;
 
-import ga.abzzezz.hangman.packet.packets.CreateRoomPacket;
-import ga.abzzezz.hangman.packet.packets.JoinRoomPacket;
+import ga.abzzezz.hangman.client.Client;
+import ga.abzzezz.hangman.client.packet.packets.CreateRoomPacket;
+import ga.abzzezz.hangman.client.packet.packets.JoinRoomPacket;
 import ga.abzzezz.hangman.screens.RoomScreen;
 import ga.abzzezz.hangman.util.Holder;
 import net.bplaced.abzzezz.EngineCore;
