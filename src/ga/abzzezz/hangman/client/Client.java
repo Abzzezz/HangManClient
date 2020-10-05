@@ -8,7 +8,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 
 public class Client extends Thread {
 
-    public static final int PORT = 1010;
+    public static final int PORT = 5060;
     private PacketManager packetManager;
 
     @Override
